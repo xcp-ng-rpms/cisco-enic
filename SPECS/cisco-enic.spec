@@ -8,10 +8,16 @@
 
 Summary: %{vendor_name} %{driver_name} device drivers
 Name: %{vendor_label}-%{driver_name}
-Version: 3.1.136.0
+Epoch: 1
+Version: 3.2.189.0
 Release: 1%{?dist}
 License: GPL
-Source: https://code.citrite.net/rest/archive/latest/projects/XS/repos/driver-%{name}/archive?at=%{version}&format=tgz&prefix=driver-%{name}-%{version}#/%{name}-%{version}.tar.gz
+
+Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/driver-cisco-enic/archive?at=3.2.189.0&format=tgz&prefix=driver-cisco-enic-3.2.189.0#/cisco-enic-3.2.189.0.tar.gz
+
+
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/driver-cisco-enic/archive?at=3.2.189.0&format=tgz&prefix=driver-cisco-enic-3.2.189.0#/cisco-enic-3.2.189.0.tar.gz) = ef3c1c95d2635598f2282dd2fc8382b5d203c07b
+
 
 BuildRequires: gcc
 BuildRequires: kernel-devel
@@ -51,3 +57,5 @@ find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chm
 /lib/modules/%{kernel_version}/*/*.ko
 
 %changelog
+* Wed Jan 23 2019 Deli Zhang <deli.zhang@citrix.com> - 1:3.2.189.0-1
+- CP-30068: Upgrade enic driver to version 1:3.2.189.0
