@@ -9,14 +9,14 @@
 Summary: %{vendor_name} %{driver_name} device drivers
 Name: %{vendor_label}-%{driver_name}
 Epoch: 1
-Version: 3.2.189.0
+Version: 4.0.0.11
 Release: 1%{?dist}
 License: GPL
 
-Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/driver-cisco-enic/archive?at=3.2.189.0&format=tgz&prefix=driver-cisco-enic-3.2.189.0#/cisco-enic-3.2.189.0.tar.gz
+Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/driver-cisco-enic/archive?at=4.0.0.11&format=tgz&prefix=driver-cisco-enic-4.0.0.11#/cisco-enic-4.0.0.11.tar.gz
 
 
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/driver-cisco-enic/archive?at=3.2.189.0&format=tgz&prefix=driver-cisco-enic-3.2.189.0#/cisco-enic-3.2.189.0.tar.gz) = ef3c1c95d2635598f2282dd2fc8382b5d203c07b
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/driver-cisco-enic/archive?at=4.0.0.11&format=tgz&prefix=driver-cisco-enic-4.0.0.11#/cisco-enic-4.0.0.11.tar.gz) = ab4e6583efb5c8358c60344ad124ee54220b8897
 
 
 BuildRequires: gcc
@@ -57,5 +57,11 @@ find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chm
 /lib/modules/%{kernel_version}/*/*.ko
 
 %changelog
+* Wed Jul 29 2020 Deli Zhang <deli.zhang@citrix.com> - 1:4.0.0.11-1
+- CP-34509: Update enic driver to 1:4.0.0.11-1
+
+* Tue Nov 05 2019 Ming Lu <ming.lu@citrix.com> - 1:3.2.210.27-1
+- CP-32342: Update enic driver to version 1:3.2.210.27
+
 * Wed Jan 23 2019 Deli Zhang <deli.zhang@citrix.com> - 1:3.2.189.0-1
 - CP-30068: Upgrade enic driver to version 1:3.2.189.0
