@@ -1,3 +1,8 @@
+%global package_speccommit f98eacfa28d88458e7727338eef246b58b6f43ab
+%global usver 4.0.0.11
+%global xsver 2
+%global xsrel %{xsver}%{?xscount}%{?xshash}
+%global package_srccommit 4.0.0.11
 %define vendor_name Cisco
 %define vendor_label cisco
 %define driver_name enic
@@ -6,20 +11,23 @@
 %define module_dir updates
 %endif
 
+## kernel_version will be set during build because then kernel-devel
+## package installs an RPM macro which sets it. This check keeps
+## rpmlint happy.
+%if %undefined kernel_version
+%define kernel_version dummy
+%endif
+
 Summary: %{vendor_name} %{driver_name} device drivers
 Name: %{vendor_label}-%{driver_name}
 Epoch: 1
 Version: 4.0.0.11
-Release: 1%{?dist}
+Release: %{?xsrel}%{?dist}
 License: GPL
-
-Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/driver-cisco-enic/archive?at=4.0.0.11&format=tgz&prefix=driver-cisco-enic-4.0.0.11#/cisco-enic-4.0.0.11.tar.gz
-
-
-Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/driver-cisco-enic/archive?at=4.0.0.11&format=tgz&prefix=driver-cisco-enic-4.0.0.11#/cisco-enic-4.0.0.11.tar.gz) = ab4e6583efb5c8358c60344ad124ee54220b8897
-
+Source0: cisco-enic-4.0.0.11.tar.gz
 
 BuildRequires: kernel-devel
+%{?_cov_buildrequires}
 Provides: vendor-driver
 Requires: kernel-uname-r = %{kernel_version}
 Requires(post): /usr/sbin/depmod
@@ -30,16 +38,19 @@ Requires(postun): /usr/sbin/depmod
 version %{kernel_version}.
 
 %prep
-%autosetup -p1 -n driver-%{name}-%{version}
+%autosetup -p1 -n %{name}-%{version}
+%{?_cov_prepare}
 
 %build
-%{?cov_wrap} %{make_build} -C /lib/modules/%{kernel_version}/build M=$(pwd) KSRC=/lib/modules/%{kernel_version}/build modules
+%{?_cov_wrap} %{make_build} -C /lib/modules/%{kernel_version}/build M=$(pwd) KSRC=/lib/modules/%{kernel_version}/build modules
 
 %install
-%{?cov_wrap} %{__make} %{?_smp_mflags} -C /lib/modules/%{kernel_version}/build M=$(pwd) INSTALL_MOD_PATH=%{buildroot} INSTALL_MOD_DIR=%{module_dir} DEPMOD=/bin/true modules_install
+%{?_cov_wrap} %{__make} %{?_smp_mflags} -C /lib/modules/%{kernel_version}/build M=$(pwd) INSTALL_MOD_PATH=%{buildroot} INSTALL_MOD_DIR=%{module_dir} DEPMOD=/bin/true modules_install
 
 # mark modules executable so that strip-to-file can strip them
 find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chmod u+x
+
+%{?_cov_install}
 
 %post
 /sbin/depmod %{kernel_version}
@@ -55,12 +66,17 @@ find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chm
 %files
 /lib/modules/%{kernel_version}/*/*.ko
 
-%changelog
-* Wed Jul 29 2020 Deli Zhang <deli.zhang@citrix.com> - 1:4.0.0.11-1
-- CP-34509: Update enic driver to 1:4.0.0.11-1
+%{?_cov_results_package}
 
-* Tue Nov 05 2019 Ming Lu <ming.lu@citrix.com> - 1:3.2.210.27-1
-- CP-32342: Update enic driver to version 1:3.2.210.27
+%changelog
+* Mon Feb 14 2022 Ross Lagerwall <ross.lagerwall@citrix.com> - 4.0.0.11-2
+- CP-38416: Enable static analysis
+
+* Mon Jan 17 2022 Deli Zhang <deli.zhang@citrix.com> - 1:4.0.0.11-1
+- CP-37628: Upgrade enic driver to version 1:4.0.0.11
+
+* Wed Dec 02 2020 Ross Lagerwall <ross.lagerwall@citrix.com> - 3.2.189.0-2
+- CP-35517: Fix the build for koji
 
 * Wed Jan 23 2019 Deli Zhang <deli.zhang@citrix.com> - 1:3.2.189.0-1
 - CP-30068: Upgrade enic driver to version 1:3.2.189.0
