@@ -1,8 +1,8 @@
-%global package_speccommit f98eacfa28d88458e7727338eef246b58b6f43ab
-%global usver 4.0.0.11
-%global xsver 2
+%global package_speccommit 144a6d6d98ee3eca21e40bc9b8880bb9f882bf9c
+%global usver 4.2.0.26
+%global xsver 1
 %global xsrel %{xsver}%{?xscount}%{?xshash}
-%global package_srccommit 4.0.0.11
+%global package_srccommit 4.2.0.26
 %define vendor_name Cisco
 %define vendor_label cisco
 %define driver_name enic
@@ -21,10 +21,10 @@
 Summary: %{vendor_name} %{driver_name} device drivers
 Name: %{vendor_label}-%{driver_name}
 Epoch: 1
-Version: 4.0.0.11
+Version: 4.2.0.26
 Release: %{?xsrel}%{?dist}
 License: GPL
-Source0: cisco-enic-4.0.0.11.tar.gz
+Source0: cisco-enic-4.2.0.26.tar.gz
 
 BuildRequires: kernel-devel
 %{?_cov_buildrequires}
@@ -69,6 +69,9 @@ find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chm
 %{?_cov_results_package}
 
 %changelog
+* Thu Oct 06 2022 Zhuangxuan Fei <zhuangxuan.fei@citrix.com> - 4.2.0.26-1
+- CP-40434: Upgrade enic driver to version 1:4.2.0.26
+
 * Mon Feb 14 2022 Ross Lagerwall <ross.lagerwall@citrix.com> - 4.0.0.11-2
 - CP-38416: Enable static analysis
 
