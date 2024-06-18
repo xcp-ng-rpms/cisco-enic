@@ -1,8 +1,8 @@
-%global package_speccommit 8f667a5abffbf8a23c36eb0a8a06de2fd93162c7
-%global usver 4.4.0.1
+%global package_speccommit 5c323944290c2414ebb239594b368f39a368f285
+%global usver 4.5.0.7
 %global xsver 1
 %global xsrel %{xsver}%{?xscount}%{?xshash}
-%global package_srccommit 4.4.0.1
+%global package_srccommit 4.5.0.7
 %define vendor_name Cisco
 %define vendor_label cisco
 %define driver_name enic
@@ -21,10 +21,10 @@
 Summary: %{vendor_name} %{driver_name} device drivers
 Name: %{vendor_label}-%{driver_name}
 Epoch: 1
-Version: 4.4.0.1
+Version: 4.5.0.7
 Release: %{?xsrel}%{?dist}
 License: GPL
-Source0: cisco-enic-4.4.0.1.tar.gz
+Source0: cisco-enic-4.5.0.7.tar.gz
 
 BuildRequires: kernel-devel
 %{?_cov_buildrequires}
@@ -69,20 +69,23 @@ find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chm
 %{?_cov_results_package}
 
 %changelog
+* Mon Feb 05 2024 Stephen Cheng <stephen.cheng@cloud.com> - 4.5.0.7-1
+- CP-47391: Upgrade enic driver to version 4.5.0.7
+
 * Thu Jun 01 2023 Stephen Cheng <stephen.cheng@citrix.com> - 4.4.0.1-1
-- CP-41863: Upgrade enic driver to version 1:4.4.0.1
+- CP-41863: Upgrade enic driver to version 4.4.0.1
 
 * Thu Oct 06 2022 Zhuangxuan Fei <zhuangxuan.fei@citrix.com> - 4.2.0.26-1
-- CP-40434: Upgrade enic driver to version 1:4.2.0.26
+- CP-40434: Upgrade enic driver to version 4.2.0.26
 
 * Mon Feb 14 2022 Ross Lagerwall <ross.lagerwall@citrix.com> - 4.0.0.11-2
 - CP-38416: Enable static analysis
 
-* Mon Jan 17 2022 Deli Zhang <deli.zhang@citrix.com> - 1:4.0.0.11-1
-- CP-37628: Upgrade enic driver to version 1:4.0.0.11
+* Mon Jan 17 2022 Deli Zhang <deli.zhang@citrix.com> - 4.0.0.11-1
+- CP-37628: Upgrade enic driver to version 4.0.0.11
 
 * Wed Dec 02 2020 Ross Lagerwall <ross.lagerwall@citrix.com> - 3.2.189.0-2
 - CP-35517: Fix the build for koji
 
-* Wed Jan 23 2019 Deli Zhang <deli.zhang@citrix.com> - 1:3.2.189.0-1
-- CP-30068: Upgrade enic driver to version 1:3.2.189.0
+* Wed Jan 23 2019 Deli Zhang <deli.zhang@citrix.com> - 3.2.189.0-1
+- CP-30068: Upgrade enic driver to version 3.2.189.0
