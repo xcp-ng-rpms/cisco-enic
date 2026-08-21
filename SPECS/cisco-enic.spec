@@ -20,9 +20,11 @@
 
 Summary: %{vendor_name} %{driver_name} device drivers
 Name: %{vendor_label}-%{driver_name}
-Epoch: 1
 Version: 4.5.0.7
-Release: %{?xsrel}%{?dist}
+Release: %{?xsrel}.1%{?dist}
+# Built against new kABI after cip rebase
+Requires: xcpng-kernel-kabi = 4.19.325-cip134+
+
 License: GPL
 Source0: cisco-enic-4.5.0.7.tar.gz
 
@@ -70,6 +72,9 @@ find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chm
 %{?_cov_results_package}
 
 %changelog
+* Mon Aug 31 2026 Quentin Casasnovas <quentin.casasnovas@vates.tech> - 4.5.0.7-1.1
+- Rebuild for kernel v4.19.325-cip134
+
 * Mon Feb 05 2024 Stephen Cheng <stephen.cheng@cloud.com> - 4.5.0.7-1
 - CP-47391: Upgrade enic driver to version 4.5.0.7
 
