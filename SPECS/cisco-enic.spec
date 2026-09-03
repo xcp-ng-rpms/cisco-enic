@@ -26,6 +26,9 @@ License: GPL
 Source0: cisco-enic-4.7.0.6.tar.gz
 Patch0: 0001-CP-309209-Remove-200000baseLR4_ER4_FR4-link-mode-XS8.patch
 
+# XCP-ng patches
+Patch1000: 0001-configure-detect-XCP-ng-as-an-XS-derivative.patch
+
 BuildRequires: gcc
 BuildRequires: kernel-devel
 %{?_cov_buildrequires}
