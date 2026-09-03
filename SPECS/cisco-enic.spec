@@ -1,8 +1,7 @@
-%global package_speccommit 5c323944290c2414ebb239594b368f39a368f285
-%global usver 4.5.0.7
+%global package_speccommit 02ba7a4f657bdf3821076d1241f9998af4a91c07
+%global usver 4.7.0.6
 %global xsver 1
 %global xsrel %{xsver}%{?xscount}%{?xshash}
-%global package_srccommit 4.5.0.7
 %define vendor_name Cisco
 %define vendor_label cisco
 %define driver_name enic
@@ -21,10 +20,11 @@
 Summary: %{vendor_name} %{driver_name} device drivers
 Name: %{vendor_label}-%{driver_name}
 Epoch: 1
-Version: 4.5.0.7
+Version: 4.7.0.6
 Release: %{?xsrel}%{?dist}
 License: GPL
-Source0: cisco-enic-4.5.0.7.tar.gz
+Source0: cisco-enic-4.7.0.6.tar.gz
+Patch0: 0001-CP-309209-Remove-200000baseLR4_ER4_FR4-link-mode-XS8.patch
 
 BuildRequires: kernel-devel
 %{?_cov_buildrequires}
@@ -42,6 +42,8 @@ version %{kernel_version}.
 %{?_cov_prepare}
 
 %build
+export KNAME=%{kernel_version}
+./configure
 %{?_cov_wrap} %{make_build} -C /lib/modules/%{kernel_version}/build M=$(pwd) KSRC=/lib/modules/%{kernel_version}/build modules
 
 %install
@@ -69,6 +71,9 @@ find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chm
 %{?_cov_results_package}
 
 %changelog
+* Tue Jul 21 2026 Stephen Cheng <stephen.cheng@cloud.com> - 4.7.0.6-1
+- CP-309209: Upgrade enic driver to version 4.7.0.6
+
 * Mon Feb 05 2024 Stephen Cheng <stephen.cheng@cloud.com> - 4.5.0.7-1
 - CP-47391: Upgrade enic driver to version 4.5.0.7
 
