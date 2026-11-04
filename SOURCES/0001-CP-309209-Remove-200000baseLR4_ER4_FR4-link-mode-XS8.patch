@@ -1,0 +1,47 @@
+From 0c76b44ffbd4e4bad3680582492fc8e37f7e886e Mon Sep 17 00:00:00 2001
+From: Stephen Cheng <stephen.cheng@citrix.com>
+Date: Tue, 21 Jul 2026 11:03:46 +0800
+Subject: [PATCH] CP-309209: Remove 200000baseLR4_ER4_FR4 link mode (XS8 only)
+
+This patch is for XenServer 8 (XS8) ONLY.
+
+The XS8 kernel (4.19) defines ETHTOOL_LINK_MODE_200000baseSR4_Full_BIT,
+200000baseDR4 and 200000baseKR4, but does not define
+ETHTOOL_LINK_MODE_200000baseLR4_ER4_FR4_Full_BIT, so the build fails:
+
+  enic_ethtool.c: In function 'enic_get_supp_adv_media_type':
+  error: 'ETHTOOL_LINK_MODE_200000baseLR4_ER4_FR4_Full_BIT' undeclared
+
+That 200G link mode cannot exist on the 4.19 kernel anyway, so simply
+drop the two ethtool_link_ksettings_add_link_mode() calls that advertise
+it. The SR4/DR4 200G modes that the XS8 kernel does provide are kept.
+
+NOTE: This is an XS8-only workaround. Do NOT carry this patch to XS9 or
+any newer kernel that defines
+ETHTOOL_LINK_MODE_200000baseLR4_ER4_FR4_Full_BIT, as it would drop a
+valid 200G media advertisement there.
+
+Signed-off-by: Stephen Cheng <stephen.cheng@citrix.com>
+---
+ enic_ethtool.c | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/enic_ethtool.c b/enic_ethtool.c
+index 36e581e..a27be30 100644
+--- a/enic_ethtool.c
++++ b/enic_ethtool.c
+@@ -515,11 +515,6 @@ enic_get_supp_adv_media_type(struct net_device *netdev,
+ 			200000baseDR4_Full);
+ 		ethtool_link_ksettings_add_link_mode(ecmd, advertising,
+ 			200000baseDR4_Full);
+-
+-		ethtool_link_ksettings_add_link_mode(ecmd, supported,
+-			200000baseLR4_ER4_FR4_Full);
+-		ethtool_link_ksettings_add_link_mode(ecmd, advertising,
+-			200000baseLR4_ER4_FR4_Full);
+ #endif
+ 		ethtool_link_ksettings_add_link_mode(ecmd, supported, FIBRE);
+ 		ethtool_link_ksettings_add_link_mode(ecmd, advertising, FIBRE);
+-- 
+2.48.1
+
