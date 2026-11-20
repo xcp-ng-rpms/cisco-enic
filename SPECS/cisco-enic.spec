@@ -21,7 +21,7 @@ Summary: %{vendor_name} %{driver_name} device drivers
 Name: %{vendor_label}-%{driver_name}
 Epoch: 1
 Version: 4.7.0.6
-Release: %{?xsrel}.1.0.kernelpreview.1%{?dist}
+Release: %{?xsrel}.1.0.kernelpreview.1.0.testv0.1%{?dist}
 License: GPL
 Source0: cisco-enic-4.7.0.6.tar.gz
 Patch0: 0001-CP-309209-Remove-200000baseLR4_ER4_FR4-link-mode-XS8.patch
