@@ -21,7 +21,7 @@ Summary: %{vendor_name} %{driver_name} device drivers
 Name: %{vendor_label}-%{driver_name}
 Epoch: 1
 Version: 4.7.0.6
-Release: %{?xsrel}.1%{?dist}
+Release: %{?xsrel}.1.0.kernelpreview.1%{?dist}
 License: GPL
 Source0: cisco-enic-4.7.0.6.tar.gz
 Patch0: 0001-CP-309209-Remove-200000baseLR4_ER4_FR4-link-mode-XS8.patch
@@ -30,7 +30,7 @@ Patch0: 0001-CP-309209-Remove-200000baseLR4_ER4_FR4-link-mode-XS8.patch
 Patch1000: 0001-configure-detect-XCP-ng-as-an-XS-derivative.patch
 
 BuildRequires: gcc
-BuildRequires: kernel-devel
+BuildRequires: kernel-devel >= 4.19.325-cip137.8.0.46.16
 %{?_cov_buildrequires}
 Provides: vendor-driver
 Requires: kernel-uname-r = %{kernel_version}
@@ -75,6 +75,9 @@ find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chm
 %{?_cov_results_package}
 
 %changelog
+* Mon Nov 16 2026 Quentin Casasnovas <quentin.casasnovas@vates.tech> - 4.7.0.6-1.1.0.kernelpreview.1
+- Rebuild for kernel v4.19.325-cip137
+
 * Thu Sep 03 2026 Quentin Casasnovas <quentin.casasnovas@vates.tech> - 4.7.0.6-1.1
 * Upstream changelog:
   * Tue Jul 21 2026 Stephen Cheng <stephen.cheng@cloud.com> - 4.7.0.6-1
